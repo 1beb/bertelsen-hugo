@@ -1,0 +1,1 @@
+Brandon is an experienced research professional who has a focus on solving business problems through statistical analysis, business process automation and web application development. This website holds his notes, public analysis and how-to's for things related to data science that he does not wish to forget. 

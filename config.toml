@@ -1,0 +1,9 @@
+baseURl = "https://bertelsen.ca/"
+languageCode = "en-us"
+title = "@beb"
+theme = "hugo-tania"
+
+[menu]
+  [[menu.header]]
+    name = "Notes"
+    url = "/articles/"
