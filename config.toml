@@ -7,9 +7,12 @@ theme = "hugo-tania"
   [[menu.header]]
     name = "Notes"
     url = "/articles/"
-#  [[menu.header]]
-#    name = "About"
-#    url = "/test/"
+  [[menu.header]]
+    name = "About"
+    url = "/about/"
+  [[menu.header]]
+    name = "Projects"
+    url = "/projects/"
 
 [params]
   [params.socialOptions]
