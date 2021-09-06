@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on @beb</title>
+    <link>https://bertelsen.ca/projects/</link>
+    <description>Recent content in Projects on @beb</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://bertelsen.ca/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Actualize Advising Inc</title>
+      <link>https://bertelsen.ca/projects/actualize/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/actualize/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>crunchtabs</title>
+      <link>https://bertelsen.ca/projects/crunchtabs/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/crunchtabs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FinEventCentral.com</title>
+      <link>https://bertelsen.ca/projects/fineventcentral/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/fineventcentral/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MiniTienda</title>
+      <link>https://bertelsen.ca/projects/minitienda/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/minitienda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Quantum Insights</title>
+      <link>https://bertelsen.ca/projects/quant.pe/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/quant.pe/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bertelsen.ca</title>
+      <link>https://bertelsen.ca/projects/bertelsen-ca/</link>
+      <pubDate>Sun, 01 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://bertelsen.ca/projects/bertelsen-ca/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
