@@ -2,7 +2,6 @@ baseURl = "https://bertelsen.ca/"
 languageCode = "en-us"
 title = "@beb"
 theme = "hugo-tania"
-publishDir = "docs"
 
 [menu]
   [[menu.header]]
