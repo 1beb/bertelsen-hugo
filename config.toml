@@ -7,3 +7,14 @@ theme = "hugo-tania"
   [[menu.header]]
     name = "Notes"
     url = "/articles/"
+  [[menu.header]]
+    name = "About"
+    url = "/test/"
+
+[params]
+  [params.socialOptions]
+    stack-overflow = "https://stackoverflow.com/users/170352/brandon-bertelsen"
+    github = "https://github.com/1beb"
+    linkedin = "https://linkedin.com/in/bbertelsen"
+    twitter = "https://twitter.com/1beb"
+    email = "brandon@bertelsen.ca"
