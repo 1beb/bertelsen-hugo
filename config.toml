@@ -2,6 +2,7 @@ baseURl = "https://bertelsen.ca/"
 languageCode = "en-us"
 title = "@beb"
 theme = "hugo-tania"
+publishDir = "docs"
 
 [menu]
   [[menu.header]]
@@ -18,3 +19,5 @@ theme = "hugo-tania"
     linkedin = "https://linkedin.com/in/bbertelsen"
     twitter = "https://twitter.com/1beb"
     email = "brandon@bertelsen.ca"
+
+  
