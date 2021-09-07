@@ -4,7 +4,6 @@ title: "Expand strsplit to data.frame"
 date: "2015-06-15"
 categories:
 - R
-- Rcpp
 ---
 
 Take a vector, with some seperator (i.e., ;), vec and expand it into a data.frame, filling in NA positions:
