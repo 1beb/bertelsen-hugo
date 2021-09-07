@@ -1,5 +1,6 @@
 ---
 title: Footnote test
+draft: true
 categories:
 - syntax
 date: 2021-05-31

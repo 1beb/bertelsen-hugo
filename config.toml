@@ -10,9 +10,6 @@ theme = "hugo-tania"
   [[menu.header]]
     name = "About"
     url = "/about/"
-  [[menu.header]]
-    name = "Projects"
-    url = "/projects/"
 
 [params]
   [params.socialOptions]
@@ -22,4 +19,7 @@ theme = "hugo-tania"
     twitter = "https://twitter.com/1beb"
     email = "brandon@bertelsen.ca"
 
-  
+[markup]
+[markup.highlight]
+  noClasses = false
+  lineNos = true

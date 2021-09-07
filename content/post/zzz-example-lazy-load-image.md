@@ -3,6 +3,7 @@ author: "Hugo Authors"
 title: "Example Lazy Load Image"
 date: "2019-03-09"
 description: "Example Lazy Load Image"
+draft: true
 tags:
 - markdown
 - text
