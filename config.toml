@@ -19,7 +19,11 @@ theme = "hugo-tania"
     twitter = "https://twitter.com/1beb"
     email = "brandon@bertelsen.ca"
 
+
 [markup]
 [markup.highlight]
   noClasses = false
   lineNos = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
