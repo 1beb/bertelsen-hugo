@@ -1,0 +1,121 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=theme-color content="dark"><title>Rcpp example using NA | @beb</title><meta property="og:site_name" content><meta property="og:title" content="Rcpp example using NA | @beb"><meta itemprop=name content="Rcpp example using NA | @beb"><meta name=twitter:title content="Rcpp example using NA | @beb"><meta name=application-name content="Rcpp example using NA | @beb"><meta name=description content><meta name=twitter:description content><meta itemprop=description content><meta property="og:description" content><meta property="og:type" content="article"><meta property="article:publisher" content><meta property="og:article:published_time" content="2016-08-28T00:00:00Z"><meta property="article:published_time" content="2016-08-28T00:00:00Z"><meta property="og:article:author" content="Brandon erik bertelsen"><meta property="article:author" content="Brandon erik bertelsen"><meta name=author content="Brandon erik bertelsen"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"Rcpp example using NA","author":{"@type":"Person","name":""},"datePublished":"2016-08-28","description":"","wordCount":317,"mainEntityOfPage":"True","dateModified":"2016-08-28","publisher":{"@type":"Organization","name":"","logo":{"@type":"imageObject","url":"https:\/\/bertelsen.ca\/favicon.ico"}}}</script><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=stylesheet href=/sass/main.min.85d2dd3a54e29956009c7c48e5f5d4bc22b6af329dc58a4fc8919e8c12720daa.css></head><script>(function(){const b='ThemeColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.userColorScheme='dark':document.documentElement.dataset.userColorScheme='light'})()</script><body class=dark><nav class=navbar><div class=container><div class=flex><div><a class=brand href=/>@beb</a></div><div class=flex><a href=/about/>About</a>
+<a href=/articles/>Notes</a>
+<button id=dark-mode-button><svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163.0 101.643 1.641 1.163 1.163.0 00-1.643-1.641zm-16.022 14.38a1.74 1.74.0 000 2.465 1.742 1.742.0 100-2.465zm13.968-2.147a2.904 2.904.0 01-4.108.0 2.902 2.902.0 010-4.107 2.902 2.902.0 014.108.0 2.902 2.902.0 010 4.107z" fill="#ffcc4d"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg><svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M16 2s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2V2zm18 14s2 0 2 2-2 2-2 2h-2s-2 0-2-2 2-2 2-2h2zM4 16s2 0 2 2-2 2-2 2H2s-2 0-2-2 2-2 2-2h2zm5.121-8.707s1.414 1.414.0 2.828-2.828.0-2.828.0L4.878 8.708s-1.414-1.414.0-2.829c1.415-1.414 2.829.0 2.829.0l1.414 1.414zm21 21s1.414 1.414.0 2.828-2.828.0-2.828.0l-1.414-1.414s-1.414-1.414.0-2.828 2.828.0 2.828.0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zM16 32s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2z"/><circle fill="#ffd983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg></button></div></div></div></nav><main><div class=container><article><header class=article-header><div class=thumb><div><h1>Rcpp example using NA</h1><div class=post-meta><div>By Brandon Erik Bertelsen | <time>August 28, 2016</time>
+| 2 minutes</div><div class=tags></div></div></div></div></header></article><div class=article-post><p>Dealing with NA in Rcpp can be a bit tricky to sort out, but the speed boosts are incredible and if you&rsquo;re dealing with large data - worth the time to figure it out. But usage cases are important to consider in the example below you can see that vectorized operations are still very competitive and very concise. Rcpp doesn&rsquo;t shine so much in this example, but it can when you have a problem that requires a waterfall of results (one result relies on the next and so on).</p><p>Here&rsquo;s a basic function that takes NA values into account and basically converts anything &lt; 0 to -1 and anything > 0 to +1.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>Rcpp</span><span class=p>)</span>  
+<span class=nf>library</span><span class=p>(</span><span class=n>microbenchmark</span><span class=p>)</span>
+
+<span class=n>signR</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>  
+  <span class=nf>for</span><span class=p>(</span><span class=n>i</span> <span class=n>in</span> <span class=m>1</span><span class=o>:</span><span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>))</span> <span class=p>{</span>
+    <span class=nf>if</span><span class=p>(</span><span class=nf>is.na</span><span class=p>(</span><span class=n>x[i]</span><span class=p>))</span> <span class=p>{</span>
+      <span class=n>next</span>
+    <span class=p>}</span>
+    <span class=nf>if </span><span class=p>(</span><span class=n>x[i]</span> <span class=o>&gt;</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+      <span class=n>x[i]</span> <span class=o>&lt;-</span> <span class=m>1</span>
+    <span class=p>}</span> <span class=n>else</span> <span class=p>{</span>
+      <span class=n>x[i]</span> <span class=o>&lt;-</span> <span class=m>-1</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=nf>return</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+<span class=p>}</span>
+
+<span class=n>signR2</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>  
+  <span class=n>x[x</span> <span class=o>&gt;</span> <span class=m>0</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=m>1</span>
+  <span class=n>x[x</span> <span class=o>&lt;</span> <span class=m>0</span><span class=n>]</span> <span class=o>&lt;-</span> <span class=m>-1</span>
+  <span class=n>x</span>
+<span class=p>}</span>
+
+<span class=nf>cppFunction</span><span class=p>(</span><span class=s>&#39;  
+</span><span class=s>NumericVector signC(NumericVector x) {  
+</span><span class=s>int n = x.size();  
+</span><span class=s>NumericVector out(n);
+</span><span class=s>
+</span><span class=s>for(int i = 0; i&lt;n; ++i ) {  
+</span><span class=s>      if (NumericVector::is_na(x[i])) {
+</span><span class=s>        out[i] = NA_REAL;
+</span><span class=s>      } else if (x[i] &gt; 0) {
+</span><span class=s>        out[i] = 1;
+</span><span class=s>      } else {
+</span><span class=s>        out[i] = -1;
+</span><span class=s>      }
+</span><span class=s>    }
+</span><span class=s>  return out;
+</span><span class=s>}&#39;</span><span class=p>)</span>
+
+
+<span class=n>test</span> <span class=o>&lt;-</span> <span class=nf>sample</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=nf>rnorm</span><span class=p>(</span><span class=m>25</span><span class=p>),</span><span class=kc>NA</span><span class=p>),</span><span class=m>100000</span><span class=p>,</span> <span class=n>replace</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>)</span>
+
+<span class=nf>microbenchmark</span><span class=p>(</span>  
+  <span class=nf>signR</span><span class=p>(</span><span class=n>test</span><span class=p>),</span>
+  <span class=nf>signR2</span><span class=p>(</span><span class=n>test</span><span class=p>),</span>
+  <span class=nf>signC</span><span class=p>(</span><span class=n>test</span><span class=p>)</span>
+<span class=p>)</span>
+
+<span class=c1># Unit: milliseconds</span>
+<span class=c1>#         expr        min         lq       mean     median         uq        max neval</span>
+<span class=c1>#  signR(test) 197.676873 201.344711 205.951881 202.437384 204.712847 317.973634   100</span>
+<span class=c1># signR2(test)   4.267238   4.335184   4.424379   4.412983   4.467380   4.869512   100</span>
+<span class=c1>#  signC(test)   2.095438   2.120071   2.185537   2.160100   2.219835   2.676364   100</span>
+
+<span class=nf>all.equal</span><span class=p>(</span><span class=nf>signR</span><span class=p>(</span><span class=n>test</span><span class=p>),</span><span class=nf>signR2</span><span class=p>(</span><span class=n>test</span><span class=p>),</span><span class=nf>signC</span><span class=p>(</span><span class=n>test</span><span class=p>))</span>  
+<span class=c1># TRUE</span>
+</code></pre></td></tr></table></div></div></div></div><div class=container><nav class="flex container suggested"><a rel=prev href=/post/montreal-scraping-2/ title="Previous post (older)"><span>Previous</span>
+Montreal FSA Scraping Part Dieux</a>
+<a rel=next href=/post/rcpp-roxygen2/ title="Next post (newer)"><span>Next</span>
+Rcpp and roxygem2</a></nav></div><div class=container></div></main></main><footer class="footer flex"><section class=container><nav class=footer-links></nav></section><script defer src=/ts/features.39c567b3af1363f8abe74bfd650f3d58cb963716b7ad4b3b53f801d3ca585599.js data-enable-footnotes=true></script></footer></body></html>

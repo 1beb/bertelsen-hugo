@@ -1,0 +1,131 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=theme-color content="dark"><title>Updating Django 1.4 to 1.10 Learnings | @beb</title><meta property="og:site_name" content><meta property="og:title" content="Updating Django 1.4 to 1.10 Learnings | @beb"><meta itemprop=name content="Updating Django 1.4 to 1.10 Learnings | @beb"><meta name=twitter:title content="Updating Django 1.4 to 1.10 Learnings | @beb"><meta name=application-name content="Updating Django 1.4 to 1.10 Learnings | @beb"><meta name=description content><meta name=twitter:description content><meta itemprop=description content><meta property="og:description" content><meta property="og:type" content="article"><meta property="article:publisher" content><meta property="og:article:published_time" content="2016-08-15T00:00:00Z"><meta property="article:published_time" content="2016-08-15T00:00:00Z"><meta property="og:article:author" content="Brandon erik bertelsen"><meta property="article:author" content="Brandon erik bertelsen"><meta name=author content="Brandon erik bertelsen"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"Updating Django 1.4 to 1.10 Learnings","author":{"@type":"Person","name":""},"datePublished":"2016-08-15","description":"","wordCount":562,"mainEntityOfPage":"True","dateModified":"2016-08-15","publisher":{"@type":"Organization","name":"","logo":{"@type":"imageObject","url":"https:\/\/bertelsen.ca\/favicon.ico"}}}</script><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=stylesheet href=/sass/main.min.85d2dd3a54e29956009c7c48e5f5d4bc22b6af329dc58a4fc8919e8c12720daa.css></head><script>(function(){const b='ThemeColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.userColorScheme='dark':document.documentElement.dataset.userColorScheme='light'})()</script><body class=dark><nav class=navbar><div class=container><div class=flex><div><a class=brand href=/>@beb</a></div><div class=flex><a href=/about/>About</a>
+<a href=/articles/>Notes</a>
+<button id=dark-mode-button><svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163.0 101.643 1.641 1.163 1.163.0 00-1.643-1.641zm-16.022 14.38a1.74 1.74.0 000 2.465 1.742 1.742.0 100-2.465zm13.968-2.147a2.904 2.904.0 01-4.108.0 2.902 2.902.0 010-4.107 2.902 2.902.0 014.108.0 2.902 2.902.0 010 4.107z" fill="#ffcc4d"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg><svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M16 2s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2V2zm18 14s2 0 2 2-2 2-2 2h-2s-2 0-2-2 2-2 2-2h2zM4 16s2 0 2 2-2 2-2 2H2s-2 0-2-2 2-2 2-2h2zm5.121-8.707s1.414 1.414.0 2.828-2.828.0-2.828.0L4.878 8.708s-1.414-1.414.0-2.829c1.415-1.414 2.829.0 2.829.0l1.414 1.414zm21 21s1.414 1.414.0 2.828-2.828.0-2.828.0l-1.414-1.414s-1.414-1.414.0-2.828 2.828.0 2.828.0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zM16 32s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2z"/><circle fill="#ffd983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg></button></div></div></div></nav><main><div class=container><article><header class=article-header><div class=thumb><div><h1>Updating Django 1.4 to 1.10 Learnings</h1><div class=post-meta><div>By Brandon Erik Bertelsen | <time>August 15, 2016</time>
+| 3 minutes</div><div class=tags></div></div></div></div></header></article><div class=article-post><p>I had a project that I wrote in Django, 1.4, back in 2012. It&rsquo;s still in production and there are no problems with it. The only exception being that there are planned changes to the database schema. Weighing my options, I decided to move forward with an upgrade to Django 1.10, because migrations are now &ldquo;built-in&rdquo; and data reliability is more important to me than a few extra hours of trouble-shooting the differences between the versions.</p><p>Here are the issues that effected me, when moving from Django 1.4 to 1.10.</p><h3 id=changes-to-settingspy><a href=#changes-to-settingspy class=anchor><svg class="icon" aria-hidden="true" focusable="false" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5.0-3-1.69-3-3.5S2.55 3 4 3h4c1.45.0 3 1.69 3 3.5.0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98.0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98.0-2-1.22-2-2.5.0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45.0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changes to settings.py</h3><p>There are no longer <code>TEMPLATE_*</code> variables in the <code>settings.py</code> file you should remove them</p><ul><li>The settings file now uses os and you should setup a variable called BASE_DIR</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=kn>import</span> <span class=nn>os</span>  
+<span class=n>BASE_DIR</span> <span class=o>=</span> <span class=s2>&#34;/path/to/your/app&#34;</span>  
+</code></pre></td></tr></table></div></div><ul><li>The TEMPLATES_DIRS now looks very different (example below)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>TEMPLATES</span> <span class=o>=</span> <span class=p>[</span>  
+<span class=p>{</span>
+    <span class=s1>&#39;BACKEND&#39;</span><span class=p>:</span> <span class=s1>&#39;django.template.backends.django.DjangoTemplates&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;DIRS&#39;</span><span class=p>:</span> <span class=p>[</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>BASE_DIR</span><span class=p>,</span> <span class=s1>&#39;templates&#39;</span><span class=p>)],</span>
+    <span class=s1>&#39;APP_DIRS&#39;</span><span class=p>:</span> <span class=kc>True</span><span class=p>,</span>
+    <span class=s1>&#39;OPTIONS&#39;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=s1>&#39;context_processors&#39;</span><span class=p>:</span> <span class=p>[</span>
+            <span class=s1>&#39;django.template.context_processors.debug&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;django.template.context_processors.request&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;django.contrib.auth.context_processors.auth&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;django.contrib.messages.context_processors.messages&#39;</span><span class=p>,</span>
+        <span class=p>],</span>
+    <span class=p>},</span>
+<span class=p>},</span>
+<span class=p>]</span>
+</code></pre></td></tr></table></div></div><ul><li><code>MIDDLEWARE_CLASSES</code> is now just <code>MIDDLEWARE</code></li></ul><h3 id=changes-to-urlspy><a href=#changes-to-urlspy class=anchor><svg class="icon" aria-hidden="true" focusable="false" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5.0-3-1.69-3-3.5S2.55 3 4 3h4c1.45.0 3 1.69 3 3.5.0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98.0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98.0-2-1.22-2-2.5.0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45.0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changes to urls.py</h3><ul><li>Some internal packages have changed, patterns no longer exists or is not necessary in django.conf.urls.defaults. There is also a newer element called settings that will need to be</li><li>You also now have to import your other apps directly if you&rsquo;re going to reference them in a single <code>urls.py</code></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>django.conf</span> <span class=kn>import</span> <span class=n>settings</span>  
+<span class=kn>from</span> <span class=nn>django.conf.urls</span> <span class=kn>import</span> <span class=n>url</span><span class=p>,</span> <span class=n>include</span>  
+<span class=kn>from</span> <span class=nn>django.contrib.staticfiles</span> <span class=kn>import</span> <span class=n>views</span>  
+<span class=kn>from</span> <span class=nn>django.conf.urls.static</span> <span class=kn>import</span> <span class=n>static</span>  
+<span class=kn>from</span> <span class=nn>django.contrib</span> <span class=kn>import</span> <span class=n>admin</span>  
+<span class=kn>from</span> <span class=nn>django.contrib.auth</span> <span class=kn>import</span> <span class=n>views</span> <span class=k>as</span> <span class=n>auth_views</span>  
+<span class=kn>from</span> <span class=nn>credoapp.api</span> <span class=kn>import</span> <span class=n>BCSResource</span><span class=p>,</span> <span class=n>ResponseResource</span>  
+<span class=kn>import</span> <span class=nn>your_other_app</span>  
+<span class=kn>from</span> <span class=nn>your_other_app</span> <span class=kn>import</span> <span class=n>views</span>
+</code></pre></td></tr></table></div></div><ul><li>urlpatterns no longer uses patterns('',&mldr;)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># Before </span>
+<span class=c1># urlpatterns = patterns(&#39;&#39;, ...,)`</span>
+<span class=c1># Now </span>
+<span class=n>urlpatterns</span> <span class=o>=</span> <span class=p>[</span><span class=o>...</span><span class=p>,]</span>  
+</code></pre></td></tr></table></div></div><ul><li>Quotations or ticks surrounding url view definitions are no longer necessary</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># Before</span>
+<span class=c1># url(r&#39;^$&#39;, &#39;your_other_app.views.index&#39;, name=&#39;home&#39;)</span>
+<span class=c1># Now</span>
+<span class=n>url</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^$&#39;</span><span class=p>,</span> <span class=n>your_other_app</span><span class=o>.</span><span class=n>views</span><span class=o>.</span><span class=n>index</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=s1>&#39;home&#39;</span><span class=p>)</span>  
+</code></pre></td></tr></table></div></div><ul><li>The syntax for django.contrib.auth.views.login and .logout is slightly different</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># Before</span>
+<span class=c1># url(r&#39;^login/$&#39;, &#39;django.contrib.auth.views.login&#39;, {&#39;template_name&#39;: &#39;login.html&#39;}),</span>
+<span class=c1># url(r&#39;^logout/$&#39;, &#39;django.contrib.auth.views.logout&#39;, { &#39;next_page&#39;: &#39;/login/&#39;}),</span>
+<span class=c1># Now</span>
+<span class=n>url</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^login/$&#39;</span><span class=p>,</span> <span class=n>auth_views</span><span class=o>.</span><span class=n>login</span><span class=p>),</span>  
+<span class=n>url</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^logout/$&#39;</span><span class=p>,</span> <span class=n>auth_views</span><span class=o>.</span><span class=n>logout</span><span class=p>,</span> <span class=p>{</span> <span class=s1>&#39;next_page&#39;</span><span class=p>:</span> <span class=s1>&#39;/login/&#39;</span><span class=p>})</span>  
+</code></pre></td></tr></table></div></div><ul><li><code>django.contrib.auth.views.login</code> also expects a template for your login page in your templates directory under <code>registration/login.html</code></li></ul><h3 id=changes-to-forms><a href=#changes-to-forms class=anchor><svg class="icon" aria-hidden="true" focusable="false" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5.0-3-1.69-3-3.5S2.55 3 4 3h4c1.45.0 3 1.69 3 3.5.0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98.0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98.0-2-1.22-2-2.5.0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45.0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changes to Forms</h3><p>Forms now require fields to be specified, in my case this was really straightforward, I just needed to add <code>fields = '__all__'</code> to my form classes.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># Before</span>
+<span class=k>class</span> <span class=nc>SomeModelForm</span><span class=p>(</span><span class=n>forms</span><span class=o>.</span><span class=n>ModelForm</span><span class=p>)</span>  
+    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+        <span class=n>model</span> <span class=o>=</span> <span class=n>SomeModel</span>   
+<span class=c1># Now</span>
+<span class=k>class</span> <span class=nc>SomeModelForm</span><span class=p>(</span><span class=n>forms</span><span class=o>.</span><span class=n>ModelForm</span><span class=p>)</span>  
+    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+        <span class=n>model</span> <span class=o>=</span> <span class=n>SomeModel</span>   
+        <span class=n>fields</span> <span class=o>=</span> <span class=s2>&#34;__all__&#34;</span> 
+</code></pre></td></tr></table></div></div><h3 id=changes-to-modelspy><a href=#changes-to-modelspy class=anchor><svg class="icon" aria-hidden="true" focusable="false" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5.0-3-1.69-3-3.5S2.55 3 4 3h4c1.45.0 3 1.69 3 3.5.0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98.0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98.0-2-1.22-2-2.5.0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45.0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changes to models.py</h3><ul><li><code>email_re</code> was removed, in favour of <code>validate_email</code>. No validation raise error required, <code>validate_email</code> does this automatically.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=c1># Before</span>
+<span class=c1># from django.core.validators import email_re</span>
+<span class=c1># Now </span>
+<span class=kn>from</span> <span class=nn>django.core.validators</span> <span class=kn>import</span> <span class=n>validate_email</span>  
+<span class=o>...</span>
+<span class=c1># Before</span>
+<span class=c1># email_re.match(email) </span>
+<span class=c1># Now</span>
+<span class=n>validate_email</span><span class=p>(</span><span class=n>email</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><h3 id=changes-to-templates-in-general><a href=#changes-to-templates-in-general class=anchor><svg class="icon" aria-hidden="true" focusable="false" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5.0-3-1.69-3-3.5S2.55 3 4 3h4c1.45.0 3 1.69 3 3.5.0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98.0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98.0-2-1.22-2-2.5.0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45.0 3-1.69 3-3.5S14.5 6 13 6z"/></svg></a>Changes to Templates in General</h3><ul><li>References to urls need to be changed using their namespace (if applicable, not in my case) or using their name.</li><li>References to urls need to be changed using their name, and should be quoted</li><li>These can exist everywhere, recommend using find in files % url to find them all and be methodical!</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-HTML data-lang=HTML># Before
+# <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;{% url someapp.views.view_name kw1 %}
+</span><span class=s># Now
+</span><span class=s>&lt;a href=&#34;</span><span class=err>{%</span> <span class=na>url</span> <span class=err>&#39;</span><span class=na>view_name</span><span class=err>&#39;</span> <span class=na>kw1</span> <span class=err>%}</span> 
+</code></pre></td></tr></table></div></div></div></div><div class=container><nav class="flex container suggested"><a rel=prev href=/post/montreal-scraping/ title="Previous post (older)"><span>Previous</span>
+Montreal FSA Scraping</a>
+<a rel=next href=/post/montreal-scraping-2/ title="Next post (newer)"><span>Next</span>
+Montreal FSA Scraping Part Dieux</a></nav></div><div class=container></div></main></main><footer class="footer flex"><section class=container><nav class=footer-links></nav></section><script defer src=/ts/features.39c567b3af1363f8abe74bfd650f3d58cb963716b7ad4b3b53f801d3ca585599.js data-enable-footnotes=true></script></footer></body></html>

@@ -1,0 +1,91 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=theme-color content="dark"><title>Montreal FSA Scraping Part Dieux | @beb</title><meta property="og:site_name" content><meta property="og:title" content="Montreal FSA Scraping Part Dieux | @beb"><meta itemprop=name content="Montreal FSA Scraping Part Dieux | @beb"><meta name=twitter:title content="Montreal FSA Scraping Part Dieux | @beb"><meta name=application-name content="Montreal FSA Scraping Part Dieux | @beb"><meta name=description content><meta name=twitter:description content><meta itemprop=description content><meta property="og:description" content><meta property="og:type" content="article"><meta property="article:publisher" content><meta property="og:article:published_time" content="2016-08-15T00:00:00Z"><meta property="article:published_time" content="2016-08-15T00:00:00Z"><meta property="og:article:author" content="Brandon erik bertelsen"><meta property="article:author" content="Brandon erik bertelsen"><meta name=author content="Brandon erik bertelsen"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"Montreal FSA Scraping Part Dieux","author":{"@type":"Person","name":""},"datePublished":"2016-08-15","description":"","wordCount":268,"mainEntityOfPage":"True","dateModified":"2016-08-15","publisher":{"@type":"Organization","name":"","logo":{"@type":"imageObject","url":"https:\/\/bertelsen.ca\/favicon.ico"}}}</script><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=stylesheet href=/sass/main.min.85d2dd3a54e29956009c7c48e5f5d4bc22b6af329dc58a4fc8919e8c12720daa.css></head><script>(function(){const b='ThemeColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.userColorScheme='dark':document.documentElement.dataset.userColorScheme='light'})()</script><body class=dark><nav class=navbar><div class=container><div class=flex><div><a class=brand href=/>@beb</a></div><div class=flex><a href=/about/>About</a>
+<a href=/articles/>Notes</a>
+<button id=dark-mode-button><svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163.0 101.643 1.641 1.163 1.163.0 00-1.643-1.641zm-16.022 14.38a1.74 1.74.0 000 2.465 1.742 1.742.0 100-2.465zm13.968-2.147a2.904 2.904.0 01-4.108.0 2.902 2.902.0 010-4.107 2.902 2.902.0 014.108.0 2.902 2.902.0 010 4.107z" fill="#ffcc4d"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg><svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform:rotate(360deg);-webkit-transform:rotate(360deg);transform:rotate(360deg)" viewBox="0 0 36 36"><path fill="#ffd983" d="M16 2s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2V2zm18 14s2 0 2 2-2 2-2 2h-2s-2 0-2-2 2-2 2-2h2zM4 16s2 0 2 2-2 2-2 2H2s-2 0-2-2 2-2 2-2h2zm5.121-8.707s1.414 1.414.0 2.828-2.828.0-2.828.0L4.878 8.708s-1.414-1.414.0-2.829c1.415-1.414 2.829.0 2.829.0l1.414 1.414zm21 21s1.414 1.414.0 2.828-2.828.0-2.828.0l-1.414-1.414s-1.414-1.414.0-2.828 2.828.0 2.828.0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828.0.0-2.828.0-2.828l1.414-1.414s1.414-1.414 2.828.0.0 2.828.0 2.828l-1.414 1.414zM16 32s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2z"/><circle fill="#ffd983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)"/></svg></button></div></div></div></nav><main><div class=container><article><header class=article-header><div class=thumb><div><h1>Montreal FSA Scraping Part Dieux</h1><div class=post-meta><div>By Brandon Erik Bertelsen | <time>August 15, 2016</time>
+| 2 minutes</div><div class=tags></div></div></div></div></header></article><div class=article-post><p>Although we were able to scrape from the web the FSA we wanted, it was unfortunately not a complete list. Instead, let&rsquo;s try another route using some data that&rsquo;s been crowdsourced, namely the geocoder.ca dataset or a subset provided by aggdata (as the geocoder.ca table is 50mbs and I don&rsquo;t need that level of accuracy).</p><p>Let&rsquo;s install some packages first. You may need to install some system files for this to work:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>sudo apt-get install libgeos-dev libgdal1-dev libproj-dev
+</code></pre></td></tr></table></div></div><p>Now we can install the appropriate packages in R, if they aren&rsquo;t already:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-R data-lang=R><span class=nf>install.packages</span><span class=p>(</span><span class=s>&#34;maptools&#34;</span><span class=p>,</span><span class=s>&#34;rgeos&#34;</span><span class=p>,</span><span class=s>&#34;rgdal&#34;</span><span class=p>)</span>  
+</code></pre></td></tr></table></div></div><p>Now we can run a short script to find the FSA&rsquo;s within the boundaries of our economic region.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-R data-lang=R><span class=nf>library</span><span class=p>(</span><span class=n>ggplot2</span><span class=p>)</span>  
+<span class=nf>library</span><span class=p>(</span><span class=n>maptools</span><span class=p>)</span>  
+<span class=nf>library</span><span class=p>(</span><span class=n>rgeos</span><span class=p>)</span>  
+<span class=nf>library</span><span class=p>(</span><span class=n>rgdal</span><span class=p>)</span>
+
+<span class=c1># Canadian shapefiles</span>
+<span class=c1># select your own (https://goo.gl/ztd9HY) or </span>
+<span class=c1># economic regions (http://goo.gl/YiHMhY) direct download</span>
+<span class=n>shp</span> <span class=o>&lt;-</span> <span class=nf>file.path</span><span class=p>(</span><span class=s>&#34;path/to/ger_000b11a_e.shp&#34;</span><span class=p>)</span>  
+<span class=n>map</span> <span class=o>&lt;-</span> <span class=nf>readShapePoly</span><span class=p>(</span><span class=n>shp</span><span class=p>,</span> <span class=n>proj4string</span> <span class=o>=</span> <span class=nf>CRS</span><span class=p>(</span><span class=s>&#34;+init=epsg:25832&#34;</span><span class=p>))</span>  
+<span class=n>sel</span> <span class=o>&lt;-</span> <span class=n>map</span><span class=o>$</span><span class=n>ERNAME</span> <span class=o>==</span> <span class=s>&#34;Montérégie&#34;</span>
+
+<span class=c1># https://www.aggdata.com/download_sample.php?file=ca_postal_codes.csv</span>
+<span class=n>fsa_db</span> <span class=o>&lt;-</span> <span class=nf>read.csv</span><span class=p>(</span><span class=s>&#34;https://goo.gl/q97K3L&#34;</span><span class=p>,</span> <span class=n>fileEncoding</span> <span class=o>=</span> <span class=s>&#34;Windows-1252&#34;</span><span class=p>)</span> <span class=nf>setNames</span><span class=p>(</span><span class=n>fsa_db</span><span class=p>,</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;fsa&#34;</span><span class=p>,</span><span class=s>&#34;place&#34;</span><span class=p>,</span><span class=s>&#34;province&#34;</span><span class=p>,</span><span class=s>&#34;lat&#34;</span><span class=p>,</span><span class=s>&#34;long&#34;</span><span class=p>))</span>
+
+<span class=n>region</span> <span class=o>&lt;-</span> <span class=n>map[sel</span><span class=p>,</span><span class=n>]</span>  
+<span class=n>points</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>long</span><span class=o>=</span><span class=nf>as.numeric</span><span class=p>(</span><span class=n>fsa_db</span><span class=o>$</span><span class=n>long</span><span class=p>),</span>  
+                     <span class=n>lat</span> <span class=o>=</span><span class=nf>as.numeric</span><span class=p>(</span><span class=n>fsa_db</span><span class=o>$</span><span class=n>lat</span><span class=p>),</span>
+                     <span class=n>id</span>  <span class=o>=</span><span class=n>fsa_db</span><span class=o>$</span><span class=n>fsa</span><span class=p>,</span> <span class=n>stringsAsFactors</span><span class=o>=</span><span class=bp>F</span><span class=p>)</span>
+
+<span class=c1># We know that Monteregie is in JXX FSAs</span>
+<span class=n>points</span><span class=o>$</span><span class=n>yes</span> <span class=o>&lt;-</span> <span class=nf>substr</span><span class=p>(</span><span class=n>points</span><span class=o>$</span><span class=n>id</span><span class=p>,</span><span class=m>0</span><span class=p>,</span><span class=m>1</span><span class=p>)</span> <span class=o>==</span> <span class=s>&#34;J&#34;</span>  
+<span class=n>points</span> <span class=o>&lt;-</span> <span class=n>points[points</span><span class=o>$</span><span class=n>yes</span><span class=p>,</span><span class=n>]</span>
+
+<span class=c1># Identify if FSA Long/Lat is within Economic Region</span>
+
+<span class=n>listing</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>()</span>  
+<span class=nf>for</span><span class=p>(</span><span class=n>i</span> <span class=n>in</span> <span class=m>1</span><span class=o>:</span><span class=nf>nrow</span><span class=p>(</span><span class=n>points</span><span class=p>))</span> <span class=p>{</span>  
+  <span class=n>p1</span> <span class=o>&lt;-</span> <span class=n>points[i</span><span class=p>,</span><span class=m>1</span><span class=o>:</span><span class=m>2</span><span class=n>]</span>
+  <span class=n>sp2</span>   <span class=o>&lt;-</span> <span class=nf>SpatialPoints</span><span class=p>(</span><span class=n>p1</span><span class=p>,</span><span class=n>proj4string</span><span class=o>=</span><span class=nf>CRS</span><span class=p>(</span><span class=nf>proj4string</span><span class=p>(</span><span class=n>region</span><span class=p>)))</span>
+  <span class=n>listing[[i]]</span> <span class=o>&lt;-</span> <span class=nf>gContains</span><span class=p>(</span><span class=n>region</span><span class=p>,</span><span class=n>sp2</span><span class=p>)</span>
+<span class=p>}</span>
+
+<span class=n>points</span> <span class=o>&lt;-</span> <span class=n>points[listing</span> <span class=o>%&gt;%</span> <span class=n>unlist</span><span class=p>,</span><span class=n>]</span>
+
+<span class=nf>ggplot</span><span class=p>(</span><span class=n>region</span><span class=p>,</span> <span class=nf>aes</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=n>long</span><span class=p>,</span><span class=n>y</span><span class=o>=</span><span class=n>lat</span><span class=p>,</span><span class=n>group</span><span class=o>=</span><span class=n>group</span><span class=p>))</span><span class=o>+</span>  
+  <span class=nf>geom_polygon</span><span class=p>(</span><span class=n>fill</span><span class=o>=</span><span class=s>&#34;lightgreen&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>geom_path</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=s>&#34;grey50&#34;</span><span class=p>)</span> <span class=o>+</span>
+  <span class=nf>geom_point</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=n>points</span><span class=p>,</span><span class=nf>aes</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=n>long</span><span class=p>,</span><span class=n>y</span><span class=o>=</span><span class=n>lat</span><span class=p>,</span><span class=n>group</span><span class=o>=</span><span class=kc>NULL</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=n>id</span><span class=p>),</span> <span class=n>size</span><span class=o>=</span><span class=m>1</span><span class=p>)</span> <span class=o>+</span>
+  <span class=nf>coord_fixed</span><span class=p>()</span> <span class=o>+</span> <span class=nf>theme</span><span class=p>(</span><span class=n>legend.position</span> <span class=o>=</span> <span class=s>&#34;none&#34;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></div><div class=container><nav class="flex container suggested"><a rel=prev href=/post/upgrading-to-django-1-10/ title="Previous post (older)"><span>Previous</span>
+Updating Django 1.4 to 1.10 Learnings</a>
+<a rel=next href=/post/rcpp-and-na/ title="Next post (newer)"><span>Next</span>
+Rcpp example using NA</a></nav></div><div class=container></div></main></main><footer class="footer flex"><section class=container><nav class=footer-links></nav></section><script defer src=/ts/features.39c567b3af1363f8abe74bfd650f3d58cb963716b7ad4b3b53f801d3ca585599.js data-enable-footnotes=true></script></footer></body></html>
