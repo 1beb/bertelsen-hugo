@@ -1,9 +1,10 @@
 ---
 author: "Brandon Erik Bertelsen"
 title: "Installing a newer version of gdal on Ubuntu 20.04"
-date: "2015-06-15"
+date: "2021-10-29"
 categories:
 - R
+- GDAL
 ---
 
 The installation candidate for GDAL for Ubuntu 20.04 is quite old. The mapviews team has come up with some rather good new features that rely on v3.3.1 or newer. 
