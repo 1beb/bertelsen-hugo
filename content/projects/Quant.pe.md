@@ -1,10 +1,10 @@
 ---
-title: "Quantum Insights"
+title: "arkdb R package"
 date: 2021-01-01
-description: A Peruvian consultancy, helping SME leverage web and data for growth and operational savings.   
+description: A convenient way to move data from large compressed text files into any DBI-compliant database connection, and move tables out of such databases into text files.   
 weight: 1
-draft: true
-link: https://quant.pe
-repo: https://quant.pe
+draft: false
+link: https://docs.ropensci.org/arkdb/
+repo: https://github.com/ropensci/arkdb
 icon: 📊
 ---
